@@ -1,0 +1,21 @@
+---
+- name: Update & upgrade Linux servers
+  hosts: tf-sample-server
+  become: true
+  gather_facts: yes
+
+  tasks:
+    - name: Update apt cache (Ubuntu/Debian)
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Upgrade all packages (Ubuntu/Debian)
+      apt:
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+      when: ansible_os_family == "Debian"
+      register: apt_upgrade_result
+

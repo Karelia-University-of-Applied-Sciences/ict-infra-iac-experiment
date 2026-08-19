@@ -1,0 +1,43 @@
+---
+- name: Managed Nginx with Handlers
+  hosts: tf-sample-server
+  become: true
+
+  tasks:
+    - name: Ensure Nginx is installed
+      package:
+        name: nginx
+        state: present
+
+    - name: Copy custom Nginx configuration
+      copy:
+        src: ./files/nginx.conf
+        dest: /etc/nginx/nginx.conf
+      notify: Restart Nginx  # This matches the name of the handler below
+
+    - name: Ensure Nginx is started
+      service:
+        name: nginx
+        state: started
+
+    - name: Copy index page
+      copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Apply the MOTD template to all servers
+      template:
+        src: motd.j2
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: '0644'
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted

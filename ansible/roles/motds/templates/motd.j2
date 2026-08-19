@@ -1,0 +1,15 @@
+#motd.j2
+{{ '=' * 43 }}
+Welcome to server: {{ ansible_hostname | upper }}
+Managed by: Ansible
+
+SYSTEM INFORMATION:
+-------------------
+Date:          {{ ansible_date_time.date }}
+Time:          {{ ansible_date_time.time }} {{ ansible_date_time.tz }}
+Total RAM:     {{ ansible_memtotal_mb }} MB
+Free RAM:      {{ ansible_memfree_mb }} MB
+OS:            {{ ansible_distribution }} {{ ansible_distribution_version }}
+
+WARNING: Unauthorized access is prohibited!
+{{ '=' * 43 }}
