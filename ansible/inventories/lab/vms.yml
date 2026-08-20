@@ -1,0 +1,25 @@
+---
+all:
+  hosts:
+    portal:
+      ansible_host: 1.2.3.4
+
+    tf-sample-server:
+      ansible_host: 5.6.7.8
+      ansible_ssh_private_key_file: ~/.ssh/ansible_deploy_key
+
+  vars:
+    ansible_connection: ssh
+    ansible_user: username
+    ansible_password: "SomePasswordHere"
+
+  children:
+    linux_servers:
+      hosts:
+        portal:
+        tf-sample-server:
+
+    test_servers:
+      hosts:
+        tf-sample-server:
+
